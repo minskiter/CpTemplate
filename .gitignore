@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
-/dist
+# Vue Mini Production File
+lib/
 
 # local env files
 .env.local

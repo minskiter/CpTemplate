@@ -1,0 +1,4 @@
+# ComponentTemplate
+
+<test>
+</test>

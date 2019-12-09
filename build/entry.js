@@ -1,0 +1,1 @@
+// TODO: Auto script for generate the entry of  index.js 
