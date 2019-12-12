@@ -1,3 +1,7 @@
 {
-  "test":"@/test/index.js"
+  "Test": "@/Test/index.js",
+  "Alert": "@/Alert/index.js",
+  "Message": "@/Message/index.js",
+  "Dropdown": "@/Dropdown/index.js",
+  "Navbar": "@/Navbar/index.js"
 }

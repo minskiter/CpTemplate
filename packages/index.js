@@ -1,8 +1,19 @@
+// Auto generate by New.js
 import './light-theme/index.scss'
-import test from './test'
+import Test from '@/Test/index.js'
+import Alert from '@/Alert/index.js'
+import Message from '@/Message/index.js'
+import Dropdown from '@/Dropdown/index.js'
+import Navbar from '@/Navbar/index.js'
 
-var components = [
-  test
+
+let components = [
+  Test,
+Alert,
+Message,
+Dropdown,
+Navbar,
+
 ]
 
 const install = function(Vue){
@@ -15,5 +26,12 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  install
+  install,
+  Test,
+Alert,
+Message,
+Dropdown,
+Navbar,
+
 }
+
