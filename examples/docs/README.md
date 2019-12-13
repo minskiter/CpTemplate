@@ -1,4 +1,5 @@
 ---
+title: UI
 home: true
 heroImage: 
 actionText: 快速上手 →

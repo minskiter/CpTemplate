@@ -1,10 +1,8 @@
 // Auto generate by New.js
 import './light-theme/index.scss'
-import Test from '@/Test/index.js'
 
 
 let components = [
-  Test,
 
 ]
 
@@ -19,7 +17,6 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 export default {
   install,
-    Test,
-
+  
 }
 

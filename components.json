@@ -1,8 +1,1 @@
-{
-  "Test": {
-    "entry": "@/Test/index.js",
-    "style": {
-      "LightTheme": "@/light-theme/Test.scss"
-    }
-  }
-}
+{}

@@ -71,10 +71,14 @@ rmdir(path.join(__dirname,`../examples/docs/zh/${componentName}/`))
 rmdir(path.join(__dirname,`../packages/${componentName}/`))
 rm(path.join(__dirname,`../packages/${theme}/`),`${componentName}.scss`)
 
-components[componentName]=undefined
+delete components[componentName]
 
 filesave(path.join(__dirname,'../components.json')).write(JSON.stringify(components,null,'  '),'utf8').end('\n')
 
 console.log(`component ${componentName} remove!`)
+
+const entry = require('./entry.js')
+
+entry()
 
 

@@ -1,5 +1,7 @@
 // TODO: Auto script for generate the entry of  index.js 
 let components = require('../components.json')
+console.log('generate entry js/scss/sidebar')
+
 const path = require('path')
 const fileSave = require('file-save') 
 
@@ -13,9 +15,13 @@ for (let key in components)
 {
   sidebar.push(`/zh/${key}/`)
 }
-fileSave(path.join(__dirname,'../examples/docs/sidebar.json')).write(JSON.stringify(sidebar,null,'  '),'utf8').end('\n');
 
 let files=[]
+
+files.push({
+  file:path.join(__dirname,'../examples/docs/sidebar.json'),
+  content:JSON.stringify(sidebar,null,'  ')
+})
 
 let installs=''
 for (let key in components){
@@ -23,7 +29,8 @@ for (let key in components){
 }
 let imports=''
 for (let key in components){
-  imports+=`import ${key} from '${components[key].entry}'\n`
+  if (components[key])
+    imports+=`import ${key} from '${components[key].entry}'\n`
 }
 
 let indexJsTemplate = `// Auto generate by New.js
@@ -63,9 +70,10 @@ files.push({
   content:indexScssTemplate
 })
 
-// region: file save
-
 for (let index in files){
   fileSave(files[index].file).write(files[index].content,'utf8').end('\n')
 }
 
+module.exports=function(){
+  // region: file save
+}
