@@ -26,4 +26,7 @@ vue.config.js # Vue cli 配置
 ``` bash
 npm run lib # 打包生辰模式
 npm run docs:dev # 开发模式，组件DEMO将显示在VuePress文档上
+npm run bin:new componentName chineseName #新建组件
+npm run bin:remove componentName && npm run bin:entry #移除组件并重新定制入口
+npm run bin:entry # 定制入口
 ```
