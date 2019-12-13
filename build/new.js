@@ -2,6 +2,9 @@
 
 // TODO: Auto Script for new a Component
 
+const prefix = 'Sv'
+const theme ='light-theme'
+
 process.on('exit',(code)=>{
   if (code!=0)
     console.log(`New.Js Exit With ${code}`)
@@ -16,7 +19,6 @@ if (!process.argv[2]){
 }
 
 // dependencies
-const theme ='light-theme'
 
 const path = require('path')
 // const fs = require('fs')
@@ -37,19 +39,44 @@ if (components[ComponentName]){
 
 // add to components.json 
 console.log(`${ComponentName} add to components.json`)
-components[ComponentName]=`@/${ComponentName}/index.js`
+components[ComponentName]={}
+components[ComponentName].entry=`@/${ComponentName}/index.js`
+components[ComponentName].style={}
+components[ComponentName].style[uppercamelcase(theme)]=`@/${theme}/${ComponentName}.scss`
 fileSave(path.join(__dirname,'../components.json')).write(JSON.stringify(components,null,'  '),'utf8').end('\n');
+
+// add sidebar.json
+let sidebar = [
+  '/'
+]
+for (let key in components)
+{
+  sidebar.push(`/zh/${key}/`)
+}
+fileSave(path.join(__dirname,'../examples/docs/sidebar.json')).write(JSON.stringify(sidebar,null,'  '),'utf8').end('\n');
+
 
 let files=[
   // scss file 
   {
-    file:path.join(__dirname,`../packages/light-theme/${ComponentName}.scss`),
-    content:``
+    file:path.join(__dirname,`../packages/${theme}/${ComponentName}.scss`),
+    content:`.${prefix.toLowerCase()}-${componentname}{
+}`
   },
   // vue index file
   {
     file:path.join(__dirname,`../packages/${ComponentName}/src/index.vue`),
-    content:``
+    content:`<template>
+  <div class="${prefix.toLowerCase()}-${componentname}">
+    ${ComponentName}-Component
+  </div>
+</template>
+
+<script>
+export default {
+  name:'${prefix}${ComponentName}'
+}
+</script>`
   },
   // vue entry file
   {
@@ -57,20 +84,35 @@ let files=[
     content:`import ${ComponentName} from './src/index.vue'
 
 ${ComponentName}.install = function(Vue){
-Vue.component(${ComponentName}.name,${ComponentName})
+  Vue.component(${ComponentName}.name,${ComponentName})
 }
 
 export default ${ComponentName};`
+  },
+  // docs file
+  {
+    file:path.join(__dirname,`../examples/docs/zh/${ComponentName}/README.md`),
+    content:`---
+title: ${ComponentName} ${chineseName} 
+sidebarDepth: 2
+---
+
+[[toc]]
+
+### ${chineseName}-DEMO 
+
+<${prefix}-${componentname}>
+</${prefix}-${componentname}>`
   }
 ]
 
 let installs=''
 for (let key in components){
-  installs+=`${key},\n`
+  installs+=`  ${key},\n`
 }
 let imports=''
 for (let key in components){
-  imports+=`import ${key} from '${components[key]}'\n`
+  imports+=`import ${key} from '${components[key].entry}'\n`
 }
 
 let indexJsTemplate = `// Auto generate by New.js
@@ -78,7 +120,7 @@ import './light-theme/index.scss'
 ${imports}
 
 let components = [
-  ${installs}
+${installs}
 ]
 
 const install = function(Vue){
@@ -109,6 +151,8 @@ files.push({
   file:path.join(__dirname,`../packages/${theme}/index.scss`),
   content:indexScssTemplate
 })
+
+// region: file save
 
 for (let index in files){
   fileSave(files[index].file).write(files[index].content,'utf8').end('\n')

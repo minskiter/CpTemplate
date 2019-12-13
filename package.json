@@ -1,11 +1,11 @@
 {
-  "name": "ComponentTemplate",
+  "name": "template",
   "version": "0.1.0",
   "private": true,
   "author":{
     "name":"minskiter",
     "email":"minskiter@outlook.com",
-    "url":"blog.leavessoft.cn"
+    "url":"https://blog.leavessoft.cn"
   },
   "bugs":{
     "email":"minskiter@gmail.com"
@@ -15,7 +15,9 @@
     "lib": "vue-cli-service build --target lib --name Template --dest lib examples/index.js",
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev examples/docs",
-    "bin:new": "node build/new.js"
+    "bin:new": "node build/new.js",
+    "bin:rm":"node build/remove.js",
+    "bin:entry":"node build/entry.js"
   },
   "dependencies": {
     "core-js": "^3.4.3",
