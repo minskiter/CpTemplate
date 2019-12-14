@@ -1,10 +1,5 @@
 'use strict'
 
-// TODO: Auto Script for new a Component
-
-const prefix = 'Sv'
-const theme ='light-theme'
-
 process.on('exit',(code)=>{
   if (code!=0)
     console.log(`New.Js Exit With ${code}`)
@@ -25,13 +20,25 @@ const path = require('path')
 const fileSave = require('file-save') 
 const uppercamelcase = require('uppercamelcase')
 
+// varible
+// varible
+let components = require('../components.json')
+const template = require('./templates.js')()
+const config = require('./config.js')
+const theme = config.theme.data[config.theme.default]
+const prefix = config.name.short.toLowerCase()
+const preFix = uppercamelcase(config.name.short)
 const componentname = process.argv[2]
 const ComponentName = uppercamelcase(componentname);
 const chineseName = process.argv[3] || ComponentName;
 
+// utils
+const render = require('./utils/render.js')
+
+
+
 console.log(`New Component ${chineseName} ...`)
 
-let components = require('../components.json')
 if (components[ComponentName]){
   console.log(`${ComponentName} already exists`)
   process.exit(1)
@@ -41,58 +48,41 @@ if (components[ComponentName]){
 console.log(`${ComponentName} add to components.json`)
 components[ComponentName]={}
 components[ComponentName].entry=`@/${ComponentName}/index.js`
-components[ComponentName].style={}
-components[ComponentName].style[uppercamelcase(theme)]=`@/${theme}/${ComponentName}.scss`
-fileSave(path.join(__dirname,'../components.json')).write(JSON.stringify(components,null,'  '),'utf8').end('\n');
-
+components[ComponentName].theme={}
+components[ComponentName].theme[uppercamelcase(theme)]=`@/${theme}-theme/${ComponentName}.scss`
 
 let files=[
+  // components.json
+  {
+    file:path.join(__dirname,'../components.json'),
+    content:JSON.stringify(components,null,'  ')
+  },
   // scss file 
   {
-    file:path.join(__dirname,`../packages/${theme}/${ComponentName}.scss`),
+    file:path.join(__dirname,`../packages/${theme}-theme/${ComponentName}.scss`),
     content:`.${prefix.toLowerCase()}-${componentname}{
 }`
   },
   // vue index file
   {
     file:path.join(__dirname,`../packages/${ComponentName}/src/index.vue`),
-    content:`<template>
-  <div class="${prefix.toLowerCase()}-${componentname}">
-    ${ComponentName}-Component
-  </div>
-</template>
-
-<script>
-export default {
-  name:'${prefix}${ComponentName}'
-}
-</script>`
+    content:render(template['vue.index.js'],{
+      componentname,preFix,prefix,ComponentName
+    })
   },
   // vue entry file
   {
     file:path.join(__dirname,`../packages/${ComponentName}/index.js`),
-    content:`import ${ComponentName} from './src/index.vue'
-
-${ComponentName}.install = function(Vue){
-  Vue.component(${ComponentName}.name,${ComponentName})
-}
-
-export default ${ComponentName};`
+    content:render(template['vue.entry.js'],{
+      ComponentName
+    })
   },
   // docs file
   {
     file:path.join(__dirname,`../examples/docs/zh/${ComponentName}/README.md`),
-    content:`---
-title: ${ComponentName} ${chineseName} 
-sidebarDepth: 2
----
-
-[[toc]]
-
-### ${chineseName}-DEMO 
-
-<${prefix}-${componentname}>
-</${prefix}-${componentname}>`
+    content:render(template['docs.entry.js'],{
+      chineseName,componentname,preFix,prefix,ComponentName
+    })
   }
 ]
 

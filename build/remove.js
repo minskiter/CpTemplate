@@ -1,8 +1,10 @@
 const fs = require("fs"),path = require("path"),filesave=require('file-save');
 const uppercamelcase = require('uppercamelcase')
 
+const config=require('./config.js')
 
-const theme = 'light-theme'
+
+const theme = config.theme.data[config.theme.default]
 
 function rmdir(url){
     var files = [];
@@ -69,7 +71,7 @@ if (!components[componentName]){
 
 rmdir(path.join(__dirname,`../examples/docs/zh/${componentName}/`))
 rmdir(path.join(__dirname,`../packages/${componentName}/`))
-rm(path.join(__dirname,`../packages/${theme}/`),`${componentName}.scss`)
+rm(path.join(__dirname,`../packages/${theme}-theme/`),`${componentName}.scss`)
 
 delete components[componentName]
 

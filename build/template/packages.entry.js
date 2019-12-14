@@ -1,11 +1,14 @@
-// Auto generate by New.js
-  import './light-theme/index.scss'
-  import Test from '@/Test/index.js'
-
+/**
+ * @param imports
+ * @param installs
+ * @param theme
+ */
+module.exports=`// Auto generate by New.js
+  import './{{theme}}-theme/index.scss'
+  {{imports}}
   
   let components = [
-    Test,
-
+  {{installs}}
   ]
   
   const install = function(Vue){
@@ -19,7 +22,6 @@
   
   export default {
     install,
-      Test,
-
+    {{installs}}
   }
-  
+  `

@@ -1,0 +1,17 @@
+module.exports={
+  name:{
+    full:'Template',
+    short:'T',
+    chinese:'模板'
+  },
+  theme:{
+    default:0,
+    data:[
+      'light',
+      'dark'
+    ]
+  },
+  lang:[
+    'zh'
+  ]
+}
