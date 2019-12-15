@@ -12,7 +12,7 @@
   },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "lib": "vue-cli-service build --target lib --name Template --dest lib examples/index.js",
+    "lib": "vue-cli-service build --target lib --name FluentVue --dest lib examples/index.js",
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev examples/docs",
     "bin:new": "node build/new.js",
