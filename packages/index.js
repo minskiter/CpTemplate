@@ -1,5 +1,8 @@
+import './light-theme/index.scss'
+import './dark-theme/index.scss'
+import './custom-theme/index.scss'
 // Auto generate by New.js
-  import './light-theme/index.scss'
+  
   
   
   let components = [
@@ -8,6 +11,7 @@
   
   const install = function(Vue){
     if (install.installed) return
+    Vue.prototype.$fvTheme='light'
     components.map(component => Vue.use(component))
   }
   

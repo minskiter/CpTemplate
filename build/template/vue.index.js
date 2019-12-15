@@ -4,9 +4,8 @@
  * @param componentname
  * @param ComponentName
  */
-
 module.exports=`<template>
-  <div class="{{prefix}}-{{componentname}}">
+  <div :class="'{{prefix}}-'+$fvTheme+'-{{componentname}}'">
     {{ComponentName}} TEMPLATE 
   </div>
 </template>

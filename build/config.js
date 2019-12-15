@@ -4,13 +4,11 @@ module.exports={
     short:'Fv',
     chinese:'模板'
   },
-  theme:{
-    default:0,
-    data:[
+  theme:[
       'light',
-      'dark'
-    ]
-  },
+      'dark',
+      'custom'
+  ],
   lang:[
     'zh'
   ]

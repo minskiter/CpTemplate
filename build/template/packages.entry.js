@@ -2,9 +2,10 @@
  * @param imports
  * @param installs
  * @param theme
+ * @param prefix
  */
 module.exports=`// Auto generate by New.js
-  import './{{theme}}-theme/index.scss'
+  
   {{imports}}
   
   let components = [
@@ -13,6 +14,7 @@ module.exports=`// Auto generate by New.js
   
   const install = function(Vue){
     if (install.installed) return
+    Vue.prototype.\${{prefix}}Theme='light'
     components.map(component => Vue.use(component))
   }
   

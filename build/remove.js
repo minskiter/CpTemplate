@@ -4,7 +4,7 @@ const uppercamelcase = require('uppercamelcase')
 const config=require('./config.js')
 
 
-const theme = config.theme.data[config.theme.default]
+const theme = config.theme
 
 function rmdir(url){
     var files = [];
@@ -80,7 +80,9 @@ try{
     console.log(e)
 }
 try{
-    rm(path.join(__dirname,`../packages/${theme}-theme/`),`${componentName}.scss`)
+    rm(path.join(__dirname,`../packages/common-theme/`),`${componentName}.scss`)
+    for (let index in theme)
+        rm(path.join(__dirname,`../packages/${theme[index]}-theme/`),`${componentName}.scss`)
 }catch(e){
     console.log(e)
 }

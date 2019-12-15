@@ -25,7 +25,8 @@ const uppercamelcase = require('uppercamelcase')
 let components = require('../components.json')
 const template = require('./templates.js')()
 const config = require('./config.js')
-const theme = config.theme.data[config.theme.default]
+// theme
+const theme = config.theme
 const prefix = config.name.short.toLowerCase()
 const preFix = uppercamelcase(config.name.short)
 const componentname = process.argv[2]
@@ -49,19 +50,15 @@ console.log(`${ComponentName} add to components.json`)
 components[ComponentName]={}
 components[ComponentName].entry=`@/${ComponentName}/index.js`
 components[ComponentName].theme={}
-components[ComponentName].theme[uppercamelcase(theme)]=`@/${theme}-theme/${ComponentName}.scss`
+for (let index in theme){
+  components[ComponentName].theme[uppercamelcase(theme[index])]=`@/${theme[index]}-theme/${ComponentName}.scss`
+}
 
 let files=[
   // components.json
   {
     file:path.join(__dirname,'../components.json'),
     content:JSON.stringify(components,null,'  ')
-  },
-  // scss file 
-  {
-    file:path.join(__dirname,`../packages/${theme}-theme/${ComponentName}.scss`),
-    content:`.${prefix.toLowerCase()}-${componentname}{
-}`
   },
   // vue index file
   {
@@ -85,6 +82,24 @@ let files=[
     })
   }
 ]
+
+//scss
+files.push({
+  file:path.join(__dirname,`../packages/common-theme/${ComponentName}.scss`),
+  content:`@mixin ${prefix.toLowerCase()}-${componentname} {
+}`
+})
+
+for (let index in theme){
+  files.push({
+    file:path.join(__dirname,`../packages/${theme[index]}-theme/${ComponentName}.scss`),
+    content:`@import '../common-theme/${ComponentName}.scss';
+.${preFix.toLowerCase()}-${theme[index]}-${componentname}{
+  @include ${prefix.toLowerCase()}-${componentname}();
+}
+    `
+  })
+}
 
 
 // region: file save

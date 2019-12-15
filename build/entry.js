@@ -8,7 +8,9 @@ const fileSave = require('file-save')
 let components = require('../components.json')
 const template = require('./templates.js')()
 const config = require('./config.js')
-const theme = config.theme.data[config.theme.default]
+// theme
+const theme = config.theme
+const prefix = config.name.short.toLowerCase()
 
 // utils
 const render = require('./utils/render.js')
@@ -35,19 +37,25 @@ for (let key in components){
     imports+=`import ${key} from '${components[key].entry}'\n`
 }
 
+let themeTemplate = `import './{{}}-theme/index.scss'\n`;
+let themes = render(themeTemplate,theme)
+
 files.push({
   file:path.join(__dirname,`../packages/index.js`),
-  content:render(template['packages.entry.js'],{
+  content:themes+render(template['packages.entry.js'],{
     installs,
     imports,
-    theme:theme
+    prefix
   })
 })
 
-files.push({
-  file:path.join(__dirname,`../packages/${theme}-theme/index.scss`),
-  content:`@import './global.scss';\n`+render(`@import './{{}}.scss';\n`,Object.keys(components))
-})
+for (let index in theme){
+  files.push({
+    file:path.join(__dirname,`../packages/${theme[index]}-theme/index.scss`),
+    content:`@import '../common-theme/global.scss';\n`+render(`@import './{{}}.scss';\n`,Object.keys(components))
+  })
+}
+
 
 for (let index in files){
   fileSave(files[index].file).write(files[index].content,'utf8').end('\n')
