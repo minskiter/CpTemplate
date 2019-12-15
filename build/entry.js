@@ -46,7 +46,7 @@ files.push({
 
 files.push({
   file:path.join(__dirname,`../packages/${theme}-theme/index.scss`),
-  content:render(`@import './{{}}.scss';`,Object.keys(components))
+  content:`@import './global.scss';\n`+render(`@import './{{}}.scss';\n`,Object.keys(components))
 })
 
 for (let index in files){

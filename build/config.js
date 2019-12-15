@@ -1,7 +1,7 @@
 module.exports={
   name:{
-    full:'Template',
-    short:'T',
+    full:'FluentVue',
+    short:'Fv',
     chinese:'模板'
   },
   theme:{

@@ -69,9 +69,21 @@ if (!components[componentName]){
   process.exit(1)
 }
 
-rmdir(path.join(__dirname,`../examples/docs/zh/${componentName}/`))
-rmdir(path.join(__dirname,`../packages/${componentName}/`))
-rm(path.join(__dirname,`../packages/${theme}-theme/`),`${componentName}.scss`)
+try{
+    rmdir(path.join(__dirname,`../examples/docs/zh/${componentName}/`))
+}catch (e){
+    console.log(e)
+}
+try{
+    rmdir(path.join(__dirname,`../packages/${componentName}/`))
+}catch (e){
+    console.log(e)
+}
+try{
+    rm(path.join(__dirname,`../packages/${theme}-theme/`),`${componentName}.scss`)
+}catch(e){
+    console.log(e)
+}
 
 delete components[componentName]
 
